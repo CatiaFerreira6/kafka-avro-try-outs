@@ -1,0 +1,359 @@
+{
+    "type" : "record",
+    "name" : "TransactionRecord",
+    "namespace" : "com.sphonic.transactionaccumulator.avro",
+    "fields" : [
+        {
+            "name" : "transaction_uuid",
+            "type" : "string",
+            "doc" : "WFM generated uuid",
+            "default" : "NONE"
+        },
+        {
+            "name" : "request_id",
+            "type" : "string",
+            "doc" : "Client given ID",
+            "default" : "NONE"
+        },
+        {
+            "name" : "request_timestamp",
+            "type" :"string",
+            "logicalType" : "timestamp-millis",
+            "doc" : "time of request",
+            "default" : "NONE"
+        },
+        {
+            "name" : "response_timestamp",
+            "type" :"string",
+            "logicalType" : "timestamp-millis",
+            "doc" : "time of response",
+            "default" : "NONE"
+        },
+        {
+            "name" : "duration",
+            "type" : "int",
+            "doc" : "duration of requests milliseconds",
+            "default" : 0
+        },
+        {
+            "name" : "timeout_duration",
+            "type" : "int",
+            "doc" : "total timeout duration milleseconds",
+            "default" : 0
+        },
+        {
+            "name" : "success_type",
+            "type" : "string",
+            "doc" : "success-type of request",
+            "default" : "NONE"
+        },
+        {
+            "name" : "source_ip",
+            "type" : "string",
+            "doc" : "originating IP address of the request",
+            "default" : "NONE"
+        },
+        {
+            "name" : "parent",
+            "doc" : "parent merchant details if present",
+            "type" : {
+                "type" : "record",
+                "name" : "parentStruct",
+                "fields" : [
+                    {
+                        "name" : "uuid",
+                        "type" : "string",
+                        "default" : "NONE"
+                    },
+                    {
+                        "name" : "name",
+                        "type" : "string",
+                        "default" : "NONE"
+                    }
+                ],
+                "default": {}
+            },
+            "default" : {}
+        },
+        {
+            "name" : "merchant",
+            "doc" : "merchant uuid and name",
+            "type" : {
+                "type" : "record",
+                "name" : "merchantStruct",
+                "fields" : [
+                    {
+                        "name" : "uuid",
+                        "type" : "string",
+                        "default" : "NONE"
+                    },
+                    {
+                        "name" : "name",
+                        "type" : "string",
+                        "default" : "NONE"
+                    }
+                ]
+            },
+            "default" : {}
+        },
+        {
+            "name" : "workflow",
+            "doc" : "workflow details",
+            "type" : {
+                "type" : "record",
+                "name" : "workflowStruct",
+                "fields" : [
+                    {
+                        "name" : "uuid",
+                        "type" : "string",
+                        "default" : "NONE"
+                    },
+                    {
+                        "name" : "name",
+                        "type" : "string",
+                        "default" : "NONE"
+                    },
+                    {
+                        "name" : "version",
+                        "type" : "int",
+                        "doc" : "workflow version",
+                        "default" : "NONE"
+                    },
+                    {
+                        "name" : "author",
+                        "type" : "string",
+                        "doc" : "main author of workflow",
+                        "default" : "NONE"
+                    },
+                    {
+                        "name" : "last_updated",
+                        "type" :"string",
+                        "logicalType" : "timestamp-millis",
+                        "doc" : "the last time the workflow was edited",
+                        "default" : "NONE"
+                    },
+                    {
+                        "name" : "hash",
+                        "type" : "string",
+                        "doc" : "hash of the latest workflow commit",
+                        "default" : "NONE"
+                    }
+                ]
+            },
+            "default" : {}
+        },
+        {
+            "name" : "vendor_calls",
+            "doc" : "vendor calls that occurred during this request",
+            "type": {
+                "type":"array",
+                "items": {
+                    "name" : "vendorCallStruct",
+                    "type" : "record",
+                    "fields": [
+                        {
+                            "name" : "txn_uuid",
+                            "type" : "string",
+                            "doc" : "vendor request transaction ID",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "step_id",
+                            "type" : "string",
+                            "doc" : "ID corresponding to the vendor calls place in the workflow trace",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "vendor_uuid",
+                            "doc" : "vendor uuid",
+                            "type" : "string",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "vendor_name",
+                            "type" : "string",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "service_uuid",
+                            "type" : "string",
+                            "doc" : "uuid of the service",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "service_name",
+                            "type" : "string",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "request_timestamp",
+                            "type" :"string",
+                            "logicalType" : "timestamp-millis",
+                            "doc" : "time of vendor request",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "response_timestamp",
+                            "type" :"string",
+                            "logicalType" : "timestamp-millis",
+                            "doc" : "time of vendor response",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "http_response_code",
+                            "type" : "int",
+                            "doc" : "response code returned from call",
+                            "default" : 0
+                        },
+                        {
+                            "name" : "http_response_classification",
+                            "type" : "string",
+                            "doc" : "classification corresponding to the response code",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "outcome",
+                            "type" : "string",
+                            "doc" : "outcome - success or timeout",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "is_billable",
+                            "type" : "boolean",
+                            "doc" : "whether this request is billable",
+                            "default" : true
+                        },
+                        {
+                            "name" : "is_match",
+                            "type" : "boolean",
+                            "doc" : "if request returned a match",
+                            "default" : true
+                        },
+                        {
+                            "name" : "classifications",
+                            "doc" : "merchant specific classifications returned from this vendor, in JSON seen as a struct of name and value but this removes a level abstraction that needs to be done, Bigquery automatically converts this map to a nested field that contains key-value",
+                            "type" : {
+                                "type":"array",
+                                "items" : {
+                                    "type" : "map",
+                                    "values" : "string"
+                                }
+                            }
+                        },
+                        {
+                            "name" : "duration",
+                            "type" : "int",
+                            "doc" : "duration of the vendor call milliseconds",
+                            "default" : 0
+                        },
+                        {
+                            "name" : "timeout_duration",
+                            "type" : "int",
+                            "doc" : "timeout duration of the vendor call milliseconds",
+                            "default" : 0
+                        },
+                        {
+                            "name" : "is_timeout",
+                            "type" : "boolean",
+                            "doc" : "if request timed-out",
+                            "default" : false
+                        },
+                        {
+                            "name" : "error_description",
+                            "type" : "string",
+                            "default" : "NONE"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name" : "trace",
+            "doc" : "an array of the workflow steps completed",
+            "type" : {
+                "type":"array",
+                "items" : {
+                    "name" : "stepStruct",
+                    "type" : "record",
+                    "fields": [
+                        {
+                            "name" : "step_id",
+                            "type" : "string",
+                            "doc" : "ID corresponding to the vendor calls place in the workflow trace",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "success_type",
+                            "type" : "string",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "step_type",
+                            "doc" : "the type of workflow node",
+                            "type" : "string",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "begin_timestamp",
+                            "type" :"string",
+                            "logicalType" : "timestamp-millis",
+                            "doc" : "time of step execution started",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "end_timestamp",
+                            "type" :"string",
+                            "logicalType" : "timestamp-millis",
+                            "doc" : "time step execution completed",
+                            "default" : "NONE"
+                        },
+                        {
+                            "name" : "duration",
+                            "type" : "int",
+                            "doc" : "duration of step completion",
+                            "default" : 0
+                        },
+                        {
+                            "name" : "error_type",
+                            "type" : "string",
+                            "default" : "NONE"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name" : "kafka",
+            "doc" : "kafka details",
+            "type" : {
+                "type" : "record",
+                "name" : "kafkaStruct",
+                "fields" : [
+                    {
+                        "name" : "partition",
+                        "type" : "int",
+                        "default" : 0
+                    },
+                    {
+                        "name" : "offset",
+                        "type" : "int",
+                        "default" : 0
+                    }
+                ]
+            },
+            "default" : {}
+        },
+        {
+            "name" : "merchant_specific",
+            "doc" : "merchant specific fields",
+            "type" : {
+                "type":"array",
+                "items" : {
+                    "type" : "map",
+                    "values" : "string"
+
+                }
+            }
+        }
+    ]
+}
